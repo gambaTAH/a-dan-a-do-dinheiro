@@ -1,0 +1,3294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Dança do Dinheiro</title>
+
+
+<style>
+:root{
+  --wood1:#6f3d1d;
+  --wood2:#8f5429;
+  --wood3:#4b2915;
+
+  --paper:#f6e7bd;
+  --paper2:#e8cf94;
+  --paperDark:#c59b55;
+
+  --ink:#39250f;
+  --muted:#765a37;
+
+  --green:#2fa866;
+  --greenDark:#177343;
+
+  --red:#dc4552;
+  --redDark:#a92b36;
+
+  --purple:#7957c8;
+  --purpleDark:#53369a;
+
+  --yellow:#f3bd35;
+  --orange:#df7c26;
+
+  --blue:#2786d8;
+
+  --shadow:#2a150b;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  min-height:100%;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+
+  font-family:
+    "Trebuchet MS",
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color:var(--ink);
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 115px,
+      #ffffff08 116px,
+      #00000012 118px,
+      transparent 120px
+    ),
+    repeating-linear-gradient(
+      2deg,
+      #70401f 0,
+      #70401f 4px,
+      #754521 5px,
+      #6b391c 9px,
+      #794824 13px
+    );
+
+  background-color:var(--wood1);
+}
+
+/* brilho sobre a madeira */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      #ffd89420,
+      transparent 45%
+    ),
+    linear-gradient(
+      90deg,
+      #0003,
+      transparent 20%,
+      transparent 80%,
+      #0003
+    );
+
+  z-index:-1;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+  border:0;
+}
+
+.screen{
+  display:none;
+  min-height:100vh;
+  padding:18px;
+}
+
+.screen.active{
+  display:flex;
+}
+
+
+/* ===================================
+   CARTÕES / PAPEL
+=================================== */
+
+.card{
+  width:min(760px,100%);
+
+  position:relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff2ca,
+      var(--paper)
+    );
+
+  border:5px solid #75431f;
+
+  border-radius:24px;
+
+  padding:32px;
+
+  box-shadow:
+    0 12px 0 #43230f,
+    0 22px 40px #0008,
+    inset 0 0 30px #b17b3425;
+
+  color:var(--ink);
+}
+
+/* detalhe de papel */
+.card::before{
+  content:"";
+  position:absolute;
+  inset:8px;
+
+  border:
+    2px dashed #9d773f55;
+
+  border-radius:16px;
+
+  pointer-events:none;
+}
+
+
+/* ===================================
+   INÍCIO
+=================================== */
+
+#start{
+  align-items:center;
+  justify-content:center;
+}
+
+.logo{
+  font-size:70px;
+  text-align:center;
+
+  filter:
+    drop-shadow(0 5px 2px #0003);
+}
+
+h1{
+  font-size:
+    clamp(36px,7vw,65px);
+
+  margin:8px 0;
+
+  text-align:center;
+
+  color:#553116;
+
+  text-shadow:
+    0 2px #ffe6a7,
+    0 4px #a76d2e55;
+}
+
+.subtitle{
+  text-align:center;
+
+  color:#705433;
+
+  font-size:18px;
+
+  line-height:1.5;
+
+  font-weight:600;
+}
+
+.setup{
+  margin:27px 0;
+
+  display:grid;
+
+  gap:12px;
+}
+
+.setup input{
+  width:100%;
+
+  padding:14px 16px;
+
+  border-radius:10px;
+
+  border:
+    3px solid #a47b43;
+
+  background:
+    #fff9e5;
+
+  color:#38220e;
+
+  outline:none;
+
+  box-shadow:
+    inset 0 3px 7px #6d481a25;
+}
+
+.setup input:focus{
+  border-color:#d29228;
+
+  box-shadow:
+    0 0 0 4px #f3bd3540,
+    inset 0 3px 7px #6d481a25;
+}
+
+
+/* BOTÃO PRINCIPAL */
+
+.primary{
+  position:relative;
+
+  width:100%;
+
+  padding:16px 22px;
+
+  border-radius:14px;
+
+  background:
+    linear-gradient(
+      #f4c74c,
+      #dc8f20
+    );
+
+  color:#42260c;
+
+  border:
+    3px solid #7a4519;
+
+  font-weight:1000;
+
+  font-size:16px;
+
+  box-shadow:
+    0 7px 0 #713d16,
+    0 12px 15px #0004,
+    inset 0 3px #fff6;
+
+  transition:
+    transform .12s,
+    box-shadow .12s;
+}
+
+.primary:hover{
+  transform:
+    translateY(-2px);
+
+  filter:
+    brightness(1.05);
+}
+
+.primary:active{
+  transform:
+    translateY(5px);
+
+  box-shadow:
+    0 2px 0 #713d16,
+    0 5px 8px #0004;
+}
+
+.rules{
+  margin-top:23px;
+
+  padding:16px;
+
+  color:#624726;
+
+  line-height:1.6;
+
+  font-size:14px;
+
+  background:#fff6d8;
+
+  border:
+    2px dashed #ae8449;
+
+  border-radius:13px;
+}
+
+
+/* ===================================
+   JOGO
+=================================== */
+
+#game{
+  display:none;
+
+  flex-direction:column;
+
+  gap:14px;
+
+  width:min(1500px,100%);
+
+  margin:auto;
+}
+
+#game.active{
+  display:flex;
+}
+
+
+/* ===================================
+   BARRA SUPERIOR
+=================================== */
+
+.topbar{
+  display:grid;
+
+  grid-template-columns:
+    1.4fr 1fr 1fr;
+
+  gap:12px;
+}
+
+.stat{
+  position:relative;
+
+  background:
+    linear-gradient(
+      #f7e5b4,
+      #e7c781
+    );
+
+  border:
+    4px solid #70401c;
+
+  border-radius:13px;
+
+  padding:12px 15px;
+
+  color:#3b240f;
+
+  box-shadow:
+    0 6px 0 #44250f,
+    0 10px 15px #0005,
+    inset 0 2px #fff7;
+}
+
+.stat::before,
+.stat::after{
+  content:"●";
+
+  position:absolute;
+
+  top:5px;
+
+  font-size:8px;
+
+  color:#795025;
+}
+
+.stat::before{
+  left:7px;
+}
+
+.stat::after{
+  right:7px;
+}
+
+.stat small{
+  color:#795d36;
+
+  display:block;
+
+  margin-bottom:3px;
+
+  font-size:10px;
+
+  font-weight:900;
+}
+
+.stat strong{
+  font-size:21px;
+
+  color:#38220d;
+}
+
+
+/* ===================================
+   ÁREA PRINCIPAL
+=================================== */
+
+.main{
+  display:grid;
+
+  grid-template-columns:
+    minmax(700px,2fr)
+    minmax(300px,.72fr);
+
+  gap:16px;
+}
+
+
+/* ===================================
+   TABULEIRO
+=================================== */
+
+.boardWrap{
+  position:relative;
+
+  overflow:hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      #f8dda1,
+      #d6a158 65%,
+      #ad7336
+    );
+
+  border:
+    11px solid #593116;
+
+  border-radius:30px;
+
+  padding:19px;
+
+  box-shadow:
+    inset 0 0 0 4px #f6d998,
+    inset 0 0 0 8px #875023,
+    inset 0 0 45px #5d351a66,
+    0 11px 0 #351a0b,
+    0 22px 35px #0008;
+}
+
+
+/* decoração central */
+
+.boardWrap::before{
+  content:"💰";
+
+  position:absolute;
+
+  left:50%;
+  top:52%;
+
+  transform:
+    translate(-50%,-50%)
+    rotate(-12deg);
+
+  font-size:300px;
+
+  opacity:.055;
+
+  pointer-events:none;
+}
+
+.boardWrap::after{
+  content:"$   ¢   $   ¢   $";
+
+  position:absolute;
+
+  left:50%;
+  bottom:3px;
+
+  transform:
+    translateX(-50%);
+
+  white-space:nowrap;
+
+  font-size:25px;
+
+  font-weight:900;
+
+  color:#60371822;
+
+  letter-spacing:20px;
+
+  pointer-events:none;
+}
+
+
+/* TÍTULO DO TABULEIRO */
+
+.boardTitle{
+  position:relative;
+
+  z-index:2;
+
+  width:max-content;
+
+  max-width:100%;
+
+  margin:
+    0 auto 12px;
+
+  padding:
+    8px 30px;
+
+  text-align:center;
+
+  background:
+    linear-gradient(
+      #70401f,
+      #4d2914
+    );
+
+  border:
+    3px solid #321708;
+
+  border-radius:8px;
+
+  color:#ffe4a4;
+
+  font-size:25px;
+
+  font-weight:1000;
+
+  letter-spacing:1px;
+
+  text-shadow:
+    0 2px #291306;
+
+  box-shadow:
+    0 5px 0 #2e170a,
+    0 8px 12px #0004;
+}
+
+
+/* LEGENDA */
+
+.legend{
+  position:relative;
+
+  z-index:2;
+
+  display:flex;
+
+  justify-content:center;
+
+  flex-wrap:wrap;
+
+  gap:7px;
+
+  margin-bottom:14px;
+}
+
+.legend span{
+  padding:
+    5px 10px;
+
+  background:
+    #fff0c8;
+
+  border:
+    2px solid #956630;
+
+  border-radius:8px;
+
+  color:#422a11;
+
+  font-size:11px;
+
+  font-weight:900;
+
+  box-shadow:
+    0 3px 0 #795025;
+}
+
+
+/* GRID */
+
+.board{
+  position:relative;
+
+  z-index:2;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(7,1fr);
+
+  gap:10px;
+}
+
+
+/* ===================================
+   CASAS
+=================================== */
+
+.space{
+  position:relative;
+
+  min-width:0;
+
+  height:108px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  border-radius:19px;
+
+  color:white;
+
+  border:
+    4px solid #fff6d5;
+
+  box-shadow:
+    0 6px 0 #56331f,
+    0 9px 9px #0005,
+    inset 0 4px #ffffff35,
+    inset 0 -7px #0002;
+
+  transition:
+    transform .18s,
+    filter .18s;
+}
+
+
+/* borda interna */
+
+.space::after{
+  content:"";
+
+  position:absolute;
+
+  inset:5px;
+
+  border:
+    2px dashed #ffffff4a;
+
+  border-radius:12px;
+
+  pointer-events:none;
+}
+
+
+/* GANHO */
+
+.space.pay{
+  background:
+    linear-gradient(
+      145deg,
+      #59dc8f,
+      #18834e
+    );
+
+  border-color:
+    #c6f6cf;
+}
+
+
+/* CONTA */
+
+.space.bill{
+  background:
+    linear-gradient(
+      145deg,
+      #f56872,
+      #b62d3a
+    );
+
+  border-color:
+    #ffd1d1;
+}
+
+
+/* EVENTO */
+
+.space.event{
+  background:
+    linear-gradient(
+      145deg,
+      #9d7ae9,
+      #5d3aab
+    );
+
+  border-color:
+    #e5d6ff;
+}
+
+
+/* INÍCIO */
+
+.space.start{
+  background:
+    linear-gradient(
+      145deg,
+      #ffe36a,
+      #e4a321
+    );
+
+  color:#3b260b;
+
+  border-color:
+    #fff5bd;
+}
+
+
+/* FINAL */
+
+.space.end{
+  background:
+    linear-gradient(
+      145deg,
+      #ffd557,
+      #db7224
+    );
+
+  color:#3b2208;
+
+  border-color:
+    #fff1ac;
+}
+
+
+/* CASA ATUAL */
+
+.space.currentSpace{
+  z-index:4;
+
+  transform:
+    translateY(-5px)
+    scale(1.055);
+
+  box-shadow:
+    0 0 0 4px #fff,
+    0 0 25px #fff4a5,
+    0 8px 0 #56331f,
+    0 12px 12px #0006,
+    inset 0 4px #ffffff50;
+}
+
+
+/* ANIMAÇÃO DO CAMINHO */
+
+.space.pathFlash{
+  animation:
+    pathFlash .35s ease;
+}
+
+@keyframes pathFlash{
+
+  50%{
+    transform:
+      translateY(-7px)
+      scale(1.1);
+
+    filter:
+      brightness(1.4);
+
+    box-shadow:
+      0 0 25px white,
+      0 8px 0 #56331f;
+  }
+
+}
+
+
+/* NÚMERO DA CASA */
+
+.num{
+  position:absolute;
+
+  top:6px;
+  left:7px;
+
+  width:26px;
+  height:26px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  border-radius:50%;
+
+  background:
+    linear-gradient(
+      #55311b,
+      #2e180c
+    );
+
+  color:#ffe9b4;
+
+  border:
+    2px solid #f2d490;
+
+  font-size:11px;
+
+  font-weight:1000;
+
+  box-shadow:
+    0 2px 3px #0006;
+}
+
+.spaceIcon{
+  font-size:27px;
+
+  margin-bottom:3px;
+
+  filter:
+    drop-shadow(0 2px 1px #0004);
+}
+
+.spaceLabel{
+  max-width:85px;
+
+  font-size:11px;
+
+  line-height:1.08;
+
+  font-weight:1000;
+
+  text-shadow:
+    0 1px 2px #0007;
+}
+
+.start .spaceLabel,
+.end .spaceLabel{
+  text-shadow:none;
+}
+
+
+/* ===================================
+   PEÕES
+=================================== */
+
+.pawns{
+  position:absolute;
+
+  left:4px;
+  right:4px;
+  bottom:2px;
+
+  min-height:30px;
+
+  display:flex;
+
+  align-items:flex-end;
+
+  justify-content:center;
+
+  gap:2px;
+
+  z-index:6;
+}
+
+.pawn{
+  position:relative;
+
+  width:19px;
+  height:23px;
+
+  border-radius:
+    48% 48% 25% 25%;
+
+  border:
+    2px solid white;
+
+  box-shadow:
+    inset 0 -5px 4px #0003,
+    0 4px 4px #0008;
+}
+
+.pawn::before{
+  content:"";
+
+  position:absolute;
+
+  width:10px;
+  height:10px;
+
+  left:2.5px;
+  top:-8px;
+
+  background:inherit;
+
+  border:
+    2px solid white;
+
+  border-radius:50%;
+}
+
+.pawn::after{
+  content:"";
+
+  position:absolute;
+
+  width:23px;
+  height:6px;
+
+  left:-4px;
+  bottom:-4px;
+
+  background:inherit;
+
+  border:
+    2px solid white;
+
+  border-radius:50%;
+}
+
+.pawn.activePawn{
+  animation:
+    pawnJump .55s infinite alternate;
+
+  filter:
+    drop-shadow(0 0 5px white);
+}
+
+@keyframes pawnJump{
+
+  from{
+    transform:
+      translateY(0);
+  }
+
+  to{
+    transform:
+      translateY(-7px);
+  }
+
+}
+
+
+/* ===================================
+   PAINEL LATERAL - PAPEL
+=================================== */
+
+.side{
+  position:relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f9ebc2,
+      #e5c37e
+    );
+
+  border:
+    6px solid #633817;
+
+  border-radius:22px;
+
+  padding:15px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:11px;
+
+  color:var(--ink);
+
+  box-shadow:
+    0 9px 0 #3b1d0c,
+    0 18px 28px #0007,
+    inset 0 0 25px #9c692f35;
+}
+
+.side::after{
+  content:"";
+
+  position:absolute;
+
+  inset:8px;
+
+  border:
+    2px dashed #8c642d55;
+
+  border-radius:13px;
+
+  pointer-events:none;
+}
+
+
+/* VEZ DO JOGADOR */
+
+.turnbox{
+  position:relative;
+
+  z-index:2;
+
+  text-align:center;
+
+  background:
+    linear-gradient(
+      #71421f,
+      #4a2813
+    );
+
+  padding:12px;
+
+  border:
+    3px solid #2e170b;
+
+  border-radius:10px;
+
+  color:#ffe6a9;
+
+  box-shadow:
+    0 5px 0 #2c1609,
+    inset 0 2px #ffffff18;
+}
+
+.turnbox small{
+  color:#e8c987;
+
+  font-size:10px;
+
+  font-weight:900;
+
+  letter-spacing:1px;
+}
+
+.turnPlayer{
+  margin-top:3px;
+
+  color:white;
+
+  font-size:21px;
+
+  font-weight:1000;
+
+  text-shadow:
+    0 2px #281307;
+}
+
+.money{
+  font-size:22px;
+
+  font-weight:1000;
+}
+
+.turnbox .money{
+  margin-top:3px;
+
+  color:#ffe05c;
+}
+
+.positive{
+  color:#187546;
+}
+
+.negative{
+  color:#b52b38;
+}
+
+
+/* ===================================
+   DADOS
+=================================== */
+
+.diceRow{
+  position:relative;
+
+  z-index:2;
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:10px;
+}
+
+.diceBox{
+  padding:
+    10px 5px;
+
+  text-align:center;
+
+  background:
+    #fff4d4;
+
+  border:
+    3px solid #9d713a;
+
+  border-radius:13px;
+
+  box-shadow:
+    0 4px 0 #775027,
+    inset 0 2px #fff;
+}
+
+.diceTitle{
+  margin-bottom:8px;
+
+  font-size:10px;
+
+  font-weight:1000;
+}
+
+.diceTitle.blue{
+  color:#176eb6;
+}
+
+.diceTitle.red{
+  color:#b52636;
+}
+
+
+/* DADO FÍSICO */
+
+.die{
+  position:relative;
+
+  width:84px;
+  height:84px;
+
+  margin:auto;
+
+  border-radius:17px;
+
+  border:
+    4px solid #fff;
+
+  box-shadow:
+    0 7px 0 #6b4727,
+    0 11px 12px #0005,
+    inset -8px -8px 13px #0004,
+    inset 7px 7px 12px #ffffff55;
+}
+
+.die.blue{
+  background:
+    linear-gradient(
+      145deg,
+      #57b4ff,
+      #176cc4
+    );
+}
+
+.die.red{
+  background:
+    linear-gradient(
+      145deg,
+      #ff6d79,
+      #bd2635
+    );
+}
+
+.dot{
+  position:absolute;
+
+  width:14px;
+  height:14px;
+
+  border-radius:50%;
+
+  background:
+    #fff9e8;
+
+  box-shadow:
+    inset 2px 2px 3px #aaa,
+    0 2px 2px #0006;
+}
+
+.tl{top:14px;left:14px}
+.tr{top:14px;right:14px}
+.ml{top:31px;left:14px}
+.mr{top:31px;right:14px}
+.bl{bottom:14px;left:14px}
+.br{bottom:14px;right:14px}
+.c{top:31px;left:31px}
+
+.rolling{
+  animation:
+    diceRoll .11s linear infinite;
+}
+
+@keyframes diceRoll{
+
+  0%{
+    transform:
+      rotate(0deg)
+      scale(1);
+  }
+
+  25%{
+    transform:
+      rotate(10deg)
+      scale(1.08);
+  }
+
+  50%{
+    transform:
+      rotate(0deg)
+      scale(.94);
+  }
+
+  75%{
+    transform:
+      rotate(-10deg)
+      scale(1.08);
+  }
+
+  100%{
+    transform:
+      rotate(0deg)
+      scale(1);
+  }
+
+}
+
+.diceMoney{
+  display:block;
+
+  margin-top:10px;
+
+  font-size:13px;
+
+  font-weight:1000;
+}
+
+
+/* ===================================
+   RESULTADO
+=================================== */
+
+.resultBox{
+  position:relative;
+
+  z-index:2;
+
+  padding:11px;
+
+  text-align:center;
+
+  background:
+    #fff8df;
+
+  border:
+    3px solid #9b713d;
+
+  border-radius:12px;
+
+  box-shadow:
+    inset 0 2px #fff,
+    0 4px 0 #765027;
+}
+
+.resultTitle{
+  color:#775b38;
+
+  font-size:10px;
+
+  font-weight:1000;
+
+  letter-spacing:.8px;
+}
+
+.resultMoney{
+  margin:4px 0;
+
+  font-size:25px;
+
+  font-weight:1000;
+}
+
+.moveResult{
+  margin-top:7px;
+
+  padding:10px;
+
+  border-radius:8px;
+
+  background:
+    linear-gradient(
+      #ffd85c,
+      #eba624
+    );
+
+  border:
+    2px solid #9a641b;
+
+  color:#38220b;
+
+  font-size:16px;
+
+  font-weight:1000;
+
+  box-shadow:
+    inset 0 2px #fff7,
+    0 3px 0 #865519;
+}
+
+.moveResult.waiting{
+  background:
+    #e0cfaa;
+
+  border-color:
+    #a68a5b;
+
+  color:#756343;
+
+  box-shadow:
+    inset 0 2px #fff8;
+}
+
+
+/* ===================================
+   BOTÃO LANÇAR DADOS
+=================================== */
+
+.roll{
+  position:relative;
+
+  z-index:2;
+
+  padding:15px;
+
+  border-radius:12px;
+
+  background:
+    linear-gradient(
+      #d84d45,
+      #a92d2d
+    );
+
+  color:#fff8df;
+
+  border:
+    3px solid #70201d;
+
+  font-size:15px;
+
+  font-weight:1000;
+
+  text-shadow:
+    0 2px #661816;
+
+  box-shadow:
+    0 6px 0 #661b19,
+    0 10px 12px #0004,
+    inset 0 3px #ffffff35;
+
+  transition:.12s;
+}
+
+.roll:hover:not(:disabled){
+  transform:
+    translateY(-2px);
+
+  filter:
+    brightness(1.08);
+}
+
+.roll:active:not(:disabled){
+  transform:
+    translateY(5px);
+
+  box-shadow:
+    0 1px 0 #661b19;
+}
+
+.roll:disabled{
+  opacity:.55;
+
+  cursor:not-allowed;
+}
+
+
+/* ===================================
+   CARTA DE EVENTO
+=================================== */
+
+.eventCard{
+  position:relative;
+
+  z-index:2;
+
+  min-height:95px;
+
+  padding:13px;
+
+  background:
+    #fff6d9;
+
+  border:
+    3px dashed #a37942;
+
+  border-radius:10px;
+
+  color:#51391d;
+
+  line-height:1.45;
+
+  font-size:13px;
+
+  box-shadow:
+    inset 0 0 10px #9a6d2830;
+}
+
+.eventCard h3{
+  margin:
+    0 0 6px;
+
+  color:#3d260f;
+}
+
+
+/* ===================================
+   HISTÓRICO / BLOCO
+=================================== */
+
+.log{
+  position:relative;
+
+  z-index:2;
+
+  height:105px;
+
+  overflow:auto;
+
+  padding:
+    10px 10px 10px 27px;
+
+  background:
+    repeating-linear-gradient(
+      #fffdf0 0,
+      #fffdf0 21px,
+      #b8d1df 22px
+    );
+
+  border:
+    3px solid #997044;
+
+  border-radius:8px;
+
+  color:#4d3924;
+
+  font-size:11px;
+
+  line-height:22px;
+
+  box-shadow:
+    inset 0 2px 7px #0001;
+}
+
+.log::before{
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  bottom:0;
+  left:19px;
+
+  width:1px;
+
+  background:#dc7777;
+}
+
+.log div{
+  min-height:22px;
+
+  padding:0;
+
+  border:0;
+}
+
+
+/* ===================================
+   JOGADORES
+=================================== */
+
+.players{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(180px,1fr)
+    );
+
+  gap:10px;
+}
+
+.playerCard{
+  position:relative;
+
+  padding:
+    11px 13px;
+
+  background:
+    linear-gradient(
+      #f7e5b4,
+      #dfbd78
+    );
+
+  border:
+    4px solid #6b3d1c;
+
+  border-radius:11px;
+
+  color:#432a12;
+
+  box-shadow:
+    0 5px 0 #40210e,
+    0 9px 12px #0004;
+
+  transition:.2s;
+}
+
+.playerCard.active{
+  transform:
+    translateY(-4px);
+
+  border-color:
+    #f6d04d;
+
+  box-shadow:
+    0 0 0 3px #fff0a1,
+    0 7px 0 #684216,
+    0 12px 17px #0005;
+}
+
+.playerCard .money{
+  font-size:19px;
+}
+
+.playerCard small{
+  color:#765a37;
+}
+
+.miniPawn{
+  display:inline-block;
+
+  width:12px;
+  height:17px;
+
+  margin-right:6px;
+
+  vertical-align:middle;
+
+  border:
+    2px solid white;
+
+  border-radius:50%;
+
+  box-shadow:
+    0 2px 2px #0005;
+}
+
+
+/* ===================================
+   MODAL / CARTA DE DECISÃO
+=================================== */
+
+.modal{
+  position:fixed;
+
+  inset:0;
+
+  display:none;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:20px;
+
+  background:#251208d9;
+
+  backdrop-filter:
+    blur(5px);
+
+  z-index:30;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal .card{
+  max-width:520px;
+
+  text-align:center;
+
+  transform:
+    rotate(-.5deg);
+}
+
+.modal h2{
+  color:#553116;
+
+  font-size:30px;
+}
+
+.choice{
+  display:grid;
+
+  gap:11px;
+
+  margin-top:18px;
+}
+
+.choice button{
+  padding:14px;
+
+  border-radius:10px;
+
+  background:
+    linear-gradient(
+      #f8e5ae,
+      #dbb568
+    );
+
+  color:#3f2912;
+
+  border:
+    3px solid #895d2b;
+
+  box-shadow:
+    0 4px 0 #68431f,
+    inset 0 2px #fff7;
+
+  transition:.12s;
+}
+
+.choice button:hover{
+  transform:
+    translateY(-2px);
+
+  background:
+    linear-gradient(
+      #ffeab3,
+      #e8c275
+    );
+}
+
+.choice button:active{
+  transform:
+    translateY(3px);
+
+  box-shadow:
+    0 1px 0 #68431f;
+}
+
+
+/* ===================================
+   TELA FINAL
+=================================== */
+
+#end{
+  align-items:center;
+
+  justify-content:center;
+}
+
+#end .card{
+  background:
+    linear-gradient(
+      145deg,
+      #fff1c4,
+      #e7c77f
+    );
+}
+
+.rank{
+  margin:20px 0;
+}
+
+.rankItem{
+  position:relative;
+
+  margin:10px 0;
+
+  padding:14px;
+
+  background:
+    #fff5d5;
+
+  border:
+    3px solid #9b713b;
+
+  border-radius:10px;
+
+  color:#452c13;
+
+  box-shadow:
+    0 4px 0 #775126;
+}
+
+.rankItem:first-child{
+  border-color:#c88a13;
+
+  background:
+    linear-gradient(
+      #fff2a9,
+      #f0c55d
+    );
+
+  box-shadow:
+    0 5px 0 #a36b14,
+    0 0 18px #ffd54b66;
+}
+
+.summary{
+  margin-top:7px;
+
+  color:#705333;
+
+  font-size:12px;
+
+  line-height:1.6;
+}
+
+
+/* ===================================
+   SCROLL
+=================================== */
+
+::-webkit-scrollbar{
+  width:9px;
+  height:9px;
+}
+
+::-webkit-scrollbar-track{
+  background:#e3c789;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#825128;
+
+  border-radius:10px;
+
+  border:
+    2px solid #e3c789;
+}
+
+
+/* ===================================
+   RESPONSIVO
+=================================== */
+
+@media(max-width:1000px){
+
+  .main{
+    grid-template-columns:1fr;
+  }
+
+  .boardWrap{
+    overflow-x:auto;
+  }
+
+  .board{
+    min-width:750px;
+  }
+
+  .side{
+    max-width:none;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .screen{
+    padding:10px;
+  }
+
+  .topbar{
+    grid-template-columns:1fr;
+  }
+
+  .boardWrap{
+    padding:12px;
+  }
+
+  .card{
+    padding:23px 18px;
+  }
+
+  .boardTitle{
+    font-size:20px;
+  }
+
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- ===============================
+     INÍCIO
+================================ -->
+
+<section id="start" class="screen active">
+
+<div class="card">
+
+<div class="logo">💸</div>
+
+<h1>A Dança do Dinheiro</h1>
+
+<p class="subtitle">
+Viva um mês financeiro em poucos minutos.
+Receba dinheiro, pague despesas, tome decisões
+e tente terminar o mês com o orçamento equilibrado.
+</p>
+
+<div class="setup">
+
+<input id="p1" value="Jogador 1" maxlength="16">
+<input id="p2" value="Jogador 2" maxlength="16">
+<input id="p3" placeholder="Jogador 3 (opcional)" maxlength="16">
+<input id="p4" placeholder="Jogador 4 (opcional)" maxlength="16">
+
+</div>
+
+<button class="primary" onclick="startGame()">
+🎲 COMEÇAR O MÊS
+</button>
+
+<div class="rules">
+
+<b>Como jogar:</b>
+cada jogador começa com <b>R$ 1.000</b>.
+
+O dado <b style="color:#5eaeff">azul</b> representa dinheiro que entra
+e o dado <b style="color:#ff7884">vermelho</b> representa dinheiro que sai.
+
+A diferença entre os dados determina quantas casas o peão anda,
+com mínimo de 1 casa.
+
+Durante o caminho você encontrará contas, ganhos
+e decisões financeiras.
+
+</div>
+
+</div>
+</section>
+
+
+<!-- ===============================
+     JOGO
+================================ -->
+
+<section id="game" class="screen">
+
+<div class="topbar">
+
+<div class="stat">
+<small>VEZ DE</small>
+<strong id="turnName">-</strong>
+</div>
+
+<div class="stat">
+<small>POSIÇÃO</small>
+<strong id="day">Casa 1 / 28</strong>
+</div>
+
+<div class="stat">
+<small>TEMPO DE JOGO</small>
+<strong id="timer">00:00</strong>
+</div>
+
+</div>
+
+
+<div class="main">
+
+<!-- TABULEIRO -->
+
+<div class="boardWrap">
+
+<div class="boardTitle">
+💰 A DANÇA DO DINHEIRO
+</div>
+
+<div class="legend">
+<span>🟢 Ganho</span>
+<span>🔴 Conta</span>
+<span>🟣 Decisão</span>
+<span>🟡 Início/Fim</span>
+</div>
+
+<div id="board" class="board"></div>
+
+</div>
+
+
+<!-- PAINEL -->
+
+<aside class="side">
+
+<div class="turnbox">
+
+<small>SUA JOGADA</small>
+
+<div id="sidePlayerName" class="turnPlayer">
+Jogador
+</div>
+
+<div id="currentMoney" class="money positive">
+R$ 1.000
+</div>
+
+</div>
+
+
+<div class="diceRow">
+
+<div class="diceBox">
+
+<div class="diceTitle blue">
+🔵 DINHEIRO QUE ENTROU
+</div>
+
+<div id="blueDice" class="die blue"></div>
+
+<span id="blueMoney" class="diceMoney positive">
++ R$ ?
+</span>
+
+</div>
+
+
+<div class="diceBox">
+
+<div class="diceTitle red">
+🔴 DINHEIRO QUE SAIU
+</div>
+
+<div id="redDice" class="die red"></div>
+
+<span id="redMoney" class="diceMoney negative">
+- R$ ?
+</span>
+
+</div>
+
+</div>
+
+
+<!-- RESULTADO -->
+
+<div class="resultBox">
+
+<div class="resultTitle">
+RESULTADO DA JOGADA
+</div>
+
+<div id="resultMoney" class="resultMoney">
+R$ ?
+</div>
+
+<div id="moveResult" class="moveResult waiting">
+🎲 Lance os dados
+</div>
+
+</div>
+
+
+<button id="rollBtn" class="roll" onclick="rollDice()">
+🎲 LANÇAR OS DOIS DADOS
+</button>
+
+
+<div id="eventCard" class="eventCard">
+
+<h3>📅 Comece o mês</h3>
+
+Os dados representam a dança do dinheiro:
+ele entra e sai durante todo o mês.
+
+</div>
+
+
+<div id="log" class="log"></div>
+
+</aside>
+
+</div>
+
+<div id="players" class="players"></div>
+
+</section>
+
+
+<!-- ===============================
+     FINAL
+================================ -->
+
+<section id="end" class="screen">
+
+<div class="card">
+
+<div class="logo">🏆</div>
+
+<h1>Fim do mês!</h1>
+
+<p class="subtitle">
+Veja como cada jogador administrou seu dinheiro.
+</p>
+
+<div id="ranking" class="rank"></div>
+
+<button class="primary" onclick="location.reload()">
+🔄 JOGAR NOVAMENTE
+</button>
+
+</div>
+
+</section>
+
+
+<div id="modal" class="modal">
+
+<div class="card">
+<div id="modalContent"></div>
+</div>
+
+</div>
+
+
+<script>
+
+/* ================================
+   CONFIGURAÇÃO
+================================ */
+
+const values=[50,100,150,200,250,300];
+
+const colors=[
+'#2d8cff',
+'#ff4d5e',
+'#35d07f',
+'#ffc857'
+];
+
+const spaces=[
+
+{t:'start',icon:'🏁',l:'INÍCIO'},
+{t:'event',icon:'🛒',l:'Mercado'},
+{t:'bill',icon:'💡',l:'Conta de luz'},
+{t:'event',icon:'⚡',l:'Imprevisto'},
+{t:'pay',icon:'💰',l:'Renda extra'},
+{t:'event',icon:'🚌',l:'Transporte'},
+{t:'bill',icon:'🌐',l:'Internet'},
+
+{t:'event',icon:'🤔',l:'Escolha'},
+{t:'pay',icon:'💵',l:'Pagamento'},
+{t:'bill',icon:'💧',l:'Água'},
+{t:'event',icon:'⚡',l:'Imprevisto'},
+{t:'event',icon:'🎬',l:'Lazer'},
+{t:'bill',icon:'🏠',l:'Aluguel'},
+{t:'pay',icon:'📦',l:'Venda'},
+
+{t:'event',icon:'🏥',l:'Saúde'},
+{t:'event',icon:'🤔',l:'Escolha'},
+{t:'bill',icon:'📱',l:'Celular'},
+{t:'pay',icon:'🔨',l:'Bico'},
+{t:'event',icon:'🚗',l:'Carro'},
+{t:'bill',icon:'🛒',l:'Mercado'},
+{t:'event',icon:'⚡',l:'Imprevisto'},
+
+{t:'pay',icon:'💳',l:'Reembolso'},
+{t:'event',icon:'👨‍👩‍👧',l:'Família'},
+{t:'bill',icon:'🧾',l:'Boleto'},
+{t:'event',icon:'🤔',l:'Escolha'},
+{t:'pay',icon:'💰',l:'Renda extra'},
+{t:'event',icon:'📅',l:'Última semana'},
+{t:'end',icon:'🏆',l:'FIM DO MÊS'}
+
+];
+
+let players=[];
+let turn=0;
+let startTime=null;
+let timerInt=null;
+let finished=0;
+
+
+/* ================================
+   DINHEIRO
+================================ */
+
+function money(v){
+
+return (v<0?'- ':'')+
+'R$ '+
+Math.abs(v).toLocaleString('pt-BR');
+
+}
+
+
+/* ================================
+   INICIAR
+================================ */
+
+function startGame(){
+
+let names=[
+p1.value,
+p2.value,
+p3.value,
+p4.value
+]
+.map(x=>x.trim())
+.filter(Boolean);
+
+if(names.length<2){
+
+alert('Digite pelo menos 2 jogadores.');
+
+return;
+
+}
+
+players=names.map((n,i)=>({
+
+name:n,
+money:1000,
+pos:0,
+finished:false,
+color:colors[i],
+
+totalGain:0,
+totalExpense:0,
+decisions:0
+
+}));
+
+document
+.getElementById('start')
+.classList.remove('active');
+
+document
+.getElementById('game')
+.classList.add('active');
+
+buildBoard();
+
+showDice('blueDice',1);
+showDice('redDice',1);
+
+render();
+
+startTime=Date.now();
+
+timerInt=setInterval(updateTimer,1000);
+
+addLog(
+'🏁 O mês começou! Todos iniciam com R$ 1.000.'
+);
+
+}
+
+
+/* ================================
+   TABULEIRO COBRINHA
+================================ */
+
+function buildBoard(){
+
+const board=
+document.getElementById('board');
+
+board.innerHTML='';
+
+let order=[];
+
+for(let row=0;row<4;row++){
+
+let line=[];
+
+for(let col=0;col<7;col++){
+
+line.push(row*7+col);
+
+}
+
+if(row%2===1){
+line.reverse();
+}
+
+order.push(...line);
+
+}
+
+order.forEach(i=>{
+
+const s=spaces[i];
+
+const div=
+document.createElement('div');
+
+div.className=
+'space '+s.t;
+
+div.id='space'+i;
+
+div.innerHTML=`
+
+<span class="num">${i+1}</span>
+
+<div class="spaceIcon">
+${s.icon}
+</div>
+
+<div class="spaceLabel">
+${s.l}
+</div>
+
+<div
+class="pawns"
+id="pawns${i}">
+</div>
+
+`;
+
+board.appendChild(div);
+
+});
+
+}
+
+
+/* ================================
+   DADOS
+================================ */
+
+function showDice(id,value){
+
+const die=
+document.getElementById(id);
+
+let positions=[];
+
+if(value===1)
+positions=['c'];
+
+if(value===2)
+positions=['tl','br'];
+
+if(value===3)
+positions=['tl','c','br'];
+
+if(value===4)
+positions=['tl','tr','bl','br'];
+
+if(value===5)
+positions=['tl','tr','c','bl','br'];
+
+if(value===6)
+positions=['tl','ml','bl','tr','mr','br'];
+
+die.innerHTML=
+
+positions
+.map(p=>`<span class="dot ${p}"></span>`)
+.join('');
+
+}
+
+
+/* ================================
+   RENDER
+================================ */
+
+function render(){
+
+const p=players[turn];
+
+turnName.textContent=
+p?.name||'-';
+
+sidePlayerName.textContent=
+p?.name||'-';
+
+day.textContent=
+'Casa '+((p?.pos||0)+1)+' / 28';
+
+currentMoney.textContent=
+money(p?.money||0);
+
+currentMoney.className=
+'money '+((p?.money||0)>=0
+?'positive'
+:'negative');
+
+
+document
+.querySelectorAll('.space')
+.forEach(x=>x.classList.remove('currentSpace'));
+
+if(p){
+
+document
+.getElementById('space'+p.pos)
+?.classList.add('currentSpace');
+
+}
+
+
+document
+.querySelectorAll('.pawns')
+.forEach(x=>x.innerHTML='');
+
+
+players.forEach((player,i)=>{
+
+const pawn=
+document.createElement('span');
+
+pawn.className=
+'pawn '+(i===turn?'activePawn':'');
+
+pawn.style.background=
+player.color;
+
+pawn.title=
+player.name;
+
+document
+.getElementById('pawns'+player.pos)
+?.appendChild(pawn);
+
+});
+
+
+playersContainer();
+
+}
+
+
+/* ================================
+   CARDS DOS JOGADORES
+================================ */
+
+function playersContainer(){
+
+document.getElementById('players').innerHTML=
+
+players.map((p,i)=>`
+
+<div class="playerCard ${i===turn?'active':''}">
+
+<b>
+
+<span
+class="miniPawn"
+style="background:${p.color}">
+</span>
+
+${p.name}
+
+</b>
+
+<br>
+
+<span class="money ${p.money>=0?'positive':'negative'}">
+
+${money(p.money)}
+
+</span>
+
+<br>
+
+<small>
+
+${p.finished
+?'🏁 Mês concluído'
+:'📍 Casa '+(p.pos+1)}
+
+</small>
+
+</div>
+
+`).join('');
+
+}
+
+
+/* ================================
+   LANÇAR DADOS
+================================ */
+
+function rollDice(){
+
+const p=players[turn];
+
+if(p.finished){
+nextTurn();
+return;
+}
+
+rollBtn.disabled=true;
+
+moveResult.className=
+'moveResult waiting';
+
+moveResult.textContent=
+'🎲 Rolando...';
+
+resultMoney.textContent=
+'...';
+
+
+const blue=
+document.getElementById('blueDice');
+
+const red=
+document.getElementById('redDice');
+
+blue.classList.add('rolling');
+red.classList.add('rolling');
+
+
+const animation=
+setInterval(()=>{
+
+showDice(
+'blueDice',
+1+Math.floor(Math.random()*6)
+);
+
+showDice(
+'redDice',
+1+Math.floor(Math.random()*6)
+);
+
+},75);
+
+
+setTimeout(()=>{
+
+clearInterval(animation);
+
+blue.classList.remove('rolling');
+red.classList.remove('rolling');
+
+
+const bd=
+1+Math.floor(Math.random()*6);
+
+const rd=
+1+Math.floor(Math.random()*6);
+
+showDice('blueDice',bd);
+showDice('redDice',rd);
+
+
+const gain=
+values[bd-1];
+
+const expense=
+values[rd-1];
+
+const net=
+gain-expense;
+
+
+/* REGISTRA ESTATÍSTICAS */
+
+p.money+=net;
+
+p.totalGain+=gain;
+
+p.totalExpense+=expense;
+
+
+/* MOVIMENTO */
+
+const move=
+Math.max(
+1,
+Math.abs(bd-rd)
+);
+
+
+/* RESULTADO VISUAL */
+
+blueMoney.textContent=
+'+ '+money(gain);
+
+redMoney.textContent=
+'- '+money(expense);
+
+resultMoney.textContent=
+(net>=0?'+ ':'')+money(net);
+
+resultMoney.className=
+'resultMoney '+(net>=0
+?'positive'
+:'negative');
+
+moveResult.className=
+'moveResult';
+
+moveResult.innerHTML=
+
+`🎲 ${bd} − ${rd} =
+${Math.abs(bd-rd)}
+&nbsp; ➜ &nbsp;
+ANDE ${move}
+${move===1?' CASA':' CASAS'}`;
+
+
+eventCard.innerHTML=`
+
+<h3>
+${net>=0?'📈':'📉'}
+Fluxo financeiro
+</h3>
+
+Entrou <b>${money(gain)}</b>
+e saiu <b>${money(expense)}</b>.
+
+<br>
+
+Saldo da jogada:
+<b>${net>=0?'+':''}${money(net)}</b>.
+
+`;
+
+
+addLog(
+`${p.name}: entrou ${money(gain)}, saiu ${money(expense)} e vai andar ${move} casa(s).`
+);
+
+
+/* PEÃO ANDA VISUALMENTE */
+
+movePawn(
+p,
+move,
+()=>resolveSpace(p)
+);
+
+},700);
+
+}
+
+
+/* ================================
+   ANIMAÇÃO DO PEÃO
+================================ */
+
+function movePawn(player,steps,callback){
+
+let moved=0;
+
+const interval=
+setInterval(()=>{
+
+if(
+moved>=steps ||
+player.pos>=27
+){
+
+clearInterval(interval);
+
+setTimeout(callback,300);
+
+return;
+
+}
+
+player.pos++;
+
+moved++;
+
+render();
+
+
+const space=
+document.getElementById(
+'space'+player.pos
+);
+
+space?.classList.add(
+'pathFlash'
+);
+
+setTimeout(()=>{
+
+space?.classList.remove(
+'pathFlash'
+);
+
+},300);
+
+},350);
+
+}
+
+
+/* ================================
+   RESOLVER CASA
+================================ */
+
+function resolveSpace(p){
+
+const s=
+spaces[p.pos];
+
+
+if(s.t==='pay'){
+
+const valuesPay=[
+100,
+150,
+200
+];
+
+const v=
+valuesPay[
+Math.floor(
+Math.random()*valuesPay.length
+)
+];
+
+p.money+=v;
+p.totalGain+=v;
+
+eventCard.innerHTML=`
+
+<h3>💰 ${s.l}</h3>
+
+Boa notícia!
+
+Você recebeu
+<b>${money(v)}</b>.
+
+`;
+
+addLog(
+`${p.name} recebeu ${money(v)} em ${s.l}.`
+);
+
+finishTurn();
+
+}
+
+
+/* CONTA */
+
+else if(s.t==='bill'){
+
+const amounts={
+
+'Conta de luz':120,
+'Internet':90,
+'Água':70,
+'Aluguel':300,
+'Celular':60,
+'Mercado':180,
+'Boleto':140
+
+};
+
+const v=
+amounts[s.l]||100;
+
+p.money-=v;
+
+p.totalExpense+=v;
+
+eventCard.innerHTML=`
+
+<h3>🧾 ${s.l}</h3>
+
+Essa despesa precisa ser paga.
+
+<br><br>
+
+<b class="negative">
+-${money(v)}
+</b>
+
+`;
+
+addLog(
+`${p.name} pagou ${s.l}: ${money(v)}.`
+);
+
+finishTurn();
+
+}
+
+
+/* EVENTO */
+
+else if(s.t==='event'){
+
+decision(p,s.l);
+
+}
+
+
+/* FINAL */
+
+else{
+
+finishTurn();
+
+}
+
+}
+
+
+/* ================================
+   DECISÕES
+================================ */
+
+function decision(p,label){
+
+let opts;
+
+
+/* CARRO */
+
+if(label==='Carro'){
+
+opts=[
+
+[
+'🔧 Consertar agora',
+'Você resolve o problema antes que ele aumente.',
+-180
+],
+
+[
+'⏳ Adiar conserto',
+'Não gasta agora, mas existe risco.',
+0,
+'risk'
+]
+
+];
+
+}
+
+
+/* SAÚDE */
+
+else if(label==='Saúde'){
+
+opts=[
+
+[
+'💊 Resolver agora',
+'Você cuida da necessidade imediatamente.',
+-100
+],
+
+[
+'🏥 Buscar opção gratuita',
+'Você reduz o custo.',
+-50
+]
+
+];
+
+}
+
+
+/* LAZER */
+
+else if(label==='Lazer'){
+
+opts=[
+
+[
+'🎬 Sair',
+'Você separa parte do orçamento para lazer.',
+-80
+],
+
+[
+'🏠 Economizar',
+'Você mantém o dinheiro no orçamento.',
+0
+]
+
+];
+
+}
+
+
+/* MERCADO */
+
+else if(label==='Mercado'){
+
+opts=[
+
+[
+'🛒 Compra completa',
+'Maior gasto, mas leva mais produtos.',
+-150
+],
+
+[
+'📋 Comprar o necessário',
+'Prioriza os itens essenciais.',
+-80
+]
+
+];
+
+}
+
+
+/* TRANSPORTE */
+
+else if(label==='Transporte'){
+
+opts=[
+
+[
+'🚌 Transporte coletivo',
+'Opção de menor custo.',
+-50
+],
+
+[
+'🚗 Aplicativo',
+'Mais comodidade, mas maior custo.',
+-100
+]
+
+];
+
+}
+
+
+/* FAMÍLIA */
+
+else if(label==='Família'){
+
+opts=[
+
+[
+'🤝 Ajudar',
+'Você contribui com R$ 100.',
+-100
+],
+
+[
+'💬 Reorganizar o orçamento',
+'Sem gasto imediato.',
+0
+]
+
+];
+
+}
+
+
+/* ÚLTIMA SEMANA */
+
+else if(label==='Última semana'){
+
+opts=[
+
+[
+'🐷 Separar para reserva',
+'Você guarda R$ 100 para o próximo mês.',
+-100,
+'save'
+],
+
+[
+'💵 Manter disponível',
+'O dinheiro continua no saldo atual.',
+0
+]
+
+];
+
+}
+
+
+/* IMPREVISTO / ESCOLHA */
+
+else{
+
+opts=[
+
+[
+'🛡️ Priorizar despesas',
+'Você separa R$ 80 para necessidades importantes.',
+-80
+],
+
+[
+'💵 Manter o dinheiro',
+'Você não realiza nenhum gasto agora.',
+0
+]
+
+];
+
+}
+
+
+modalContent.innerHTML=`
+
+<h2>⚡ ${label}</h2>
+
+<p>
+O que você faria nessa situação?
+</p>
+
+<div class="choice">
+
+${opts.map((o,i)=>`
+
+<button onclick="choose(${i})">
+
+<b>${o[0]}</b>
+
+<br><br>
+
+<small>
+${o[1]}
+</small>
+
+</button>
+
+`).join('')}
+
+</div>
+
+`;
+
+window.currentOptions=opts;
+
+modal.classList.add('show');
+
+}
+
+
+/* ================================
+   ESCOLHA
+================================ */
+
+function choose(i){
+
+const p=
+players[turn];
+
+const o=
+currentOptions[i];
+
+let effect=o[2];
+
+p.decisions++;
+
+
+/* RISCO DO CARRO */
+
+if(
+o[3]==='risk' &&
+Math.random()<.5
+){
+
+effect=-300;
+
+addLog(
+`⚠️ ${p.name} adiou o conserto e o problema ficou maior: -R$ 300.`
+);
+
+}
+
+else{
+
+addLog(
+`${p.name} escolheu "${o[0]}".`
+);
+
+}
+
+
+/* APLICA EFEITO */
+
+p.money+=effect;
+
+if(effect<0){
+
+p.totalExpense+=
+Math.abs(effect);
+
+}
+
+
+modal.classList.remove('show');
+
+
+eventCard.innerHTML=`
+
+<h3>${o[0]}</h3>
+
+${o[1]}
+
+<br><br>
+
+Impacto:
+
+<b class="${effect>=0?'positive':'negative'}">
+
+${effect===0
+?'R$ 0'
+:money(effect)}
+
+</b>
+
+`;
+
+finishTurn();
+
+}
+
+
+/* ================================
+   FINAL DO TURNO
+================================ */
+
+function finishTurn(){
+
+const p=
+players[turn];
+
+if(
+p.pos>=27 &&
+!p.finished
+){
+
+p.finished=true;
+
+finished++;
+
+addLog(
+`🏁 ${p.name} terminou o mês com ${money(p.money)}.`
+);
+
+}
+
+render();
+
+setTimeout(
+nextTurn,
+800
+);
+
+}
+
+
+/* ================================
+   PRÓXIMO JOGADOR
+================================ */
+
+function nextTurn(){
+
+if(
+finished===players.length
+){
+
+endGame();
+
+return;
+
+}
+
+do{
+
+turn=
+(turn+1)%players.length;
+
+}
+while(players[turn].finished);
+
+
+showDice(
+'blueDice',
+1
+);
+
+showDice(
+'redDice',
+1
+);
+
+blueMoney.textContent=
+'+ R$ ?';
+
+redMoney.textContent=
+'- R$ ?';
+
+resultMoney.textContent=
+'R$ ?';
+
+resultMoney.className=
+'resultMoney';
+
+moveResult.textContent=
+'🎲 Lance os dados';
+
+moveResult.className=
+'moveResult waiting';
+
+rollBtn.disabled=false;
+
+render();
+
+}
+
+
+/* ================================
+   LOG
+================================ */
+
+function addLog(text){
+
+const div=
+document.createElement('div');
+
+div.textContent=text;
+
+log.prepend(div);
+
+}
+
+
+/* ================================
+   TIMER
+================================ */
+
+function updateTimer(){
+
+const seconds=
+Math.floor(
+(Date.now()-startTime)/1000
+);
+
+const min=
+Math.floor(seconds/60);
+
+const sec=
+seconds%60;
+
+timer.textContent=
+
+String(min).padStart(2,'0')
++
+':'
++
+String(sec).padStart(2,'0');
+
+
+/* LIMITE 15 MIN */
+
+if(seconds>=900){
+
+endGame();
+
+}
+
+}
+
+
+/* ================================
+   FINAL
+================================ */
+
+function endGame(){
+
+clearInterval(timerInt);
+
+document
+.getElementById('game')
+.classList.remove('active');
+
+document
+.getElementById('end')
+.classList.add('active');
+
+
+const rank=
+[...players]
+.sort(
+(a,b)=>b.money-a.money
+);
+
+
+ranking.innerHTML=
+
+rank.map((p,i)=>{
+
+let medal='';
+
+if(i===0) medal='🥇';
+else if(i===1) medal='🥈';
+else if(i===2) medal='🥉';
+else medal='🎯';
+
+return`
+
+<div class="rankItem">
+
+<div style="
+display:flex;
+justify-content:space-between;
+gap:10px;
+align-items:center;
+">
+
+<b>
+${medal} ${i+1}º ${p.name}
+</b>
+
+<strong class="${p.money>=0?'positive':'negative'}">
+${money(p.money)}
+</strong>
+
+</div>
+
+<div class="summary">
+
+💰 Total recebido:
+<b>${money(p.totalGain)}</b>
+
+<br>
+
+💸 Total gasto:
+<b>${money(p.totalExpense)}</b>
+
+<br>
+
+🤔 Decisões tomadas:
+<b>${p.decisions}</b>
+
+</div>
+
+</div>
+
+`;
+
+}).join('');
+
+}
+
+</script>
+
+</body>
+</html>
